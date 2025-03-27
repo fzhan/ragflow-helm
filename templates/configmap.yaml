@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ragflow.fullname" . }}-config
+  labels:
+    {{- include "ragflow.labels" . | nindent 4 }}
+data:
+  LOG_LEVEL: {{ .Values.config.logLevel | quote }}
+  EMBEDDING_MODEL: {{ .Values.config.embeddingModel | quote }}
+  MAX_DOCUMENT_SIZE: {{ .Values.config.maxDocumentSize | quote }}
+  
+  # Milvus connection
+  {{- if .Values.milvus.enabled }}
+  MILVUS_HOST: {{ .Release.Name }}-milvus
+  MILVUS_PORT: "19530"
+  {{- else }}
+  MILVUS_HOST: {{ .Values.milvus.host | default "milvus" | quote }}
+  MILVUS_PORT: {{ .Values.milvus.port | default "19530" | quote }}
+  {{- end }}
+  
+  # LLM configuration variables (non-sensitive)
+  LLM_PROVIDER: {{ .Values.llm.provider | quote }}
+  LLM_MODEL: {{ .Values.llm.model | quote }}

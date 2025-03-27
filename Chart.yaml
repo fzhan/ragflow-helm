@@ -1,0 +1,17 @@
+apiVersion: v2
+name: ragflow
+description: A Helm chart for RAGFlow - Open-source RAG engine based on deep document understanding
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://github.com/infiniflow/ragflow
+sources:
+  - https://github.com/infiniflow/ragflow
+maintainers:
+  - name: Fan Zhang
+    email: fan.potato@gmail.com
+dependencies:
+  - name: milvus
+    version: 4.0.x
+    repository: https://milvus-io.github.io/milvus-helm
+    condition: milvus.enabled
